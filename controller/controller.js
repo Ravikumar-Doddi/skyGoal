@@ -66,13 +66,12 @@ const editUser = async (req, res) => {
 };
 
 const removeUser = async (req, res) => {
-  const user = await connection.find(
-    { email: `${req.body.userEmail}` },
-    "-password"
-  );
-  console.log(user);
-  if (user.length > 0) {
-    connection.deleteOne({ email: req.body.userEmail });
+  const { id } = req.params;
+  console.log(id)
+  const user = await connection.findByIdAndRemove(id);
+  console.log(user)
+
+  if (user) {
     res.send({ message: "User Removed Successfully" });
   } else {
     res.send({ message: "User Not Found" });
